@@ -86,6 +86,10 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -94,6 +98,14 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -179,9 +191,37 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\ProductVersionsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Product.cs">
+      <DependentUpon>UpdateEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductInfo.cs" />
+    <Compile Include="Models\ProductModule.cs">
+      <DependentUpon>UpdateEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductVersion.cs">
+      <DependentUpon>UpdateEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UpdateEntity.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpdateEntity.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UpdateEntity.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpdateEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UpdateEntity.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpdateEntity.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModel\JSONReturnVM.cs" />
     <Compile Include="Models\List.cs" />
@@ -200,12 +240,28 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="app\components\todolist\todolist.component.css" />
-    <Content Include="app\components\todolist\todolist.component.html" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="app\templates\app.component.html" />
+    <EntityDeploy Include="Models\UpdateEntity.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>UpdateEntity.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\UpdateEntity.edmx.diagram">
+      <DependentUpon>UpdateEntity.edmx</DependentUpon>
+    </Content>
     <None Include="readme.md" />
+    <Content Include="Models\UpdateEntity.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>UpdateEntity.edmx</DependentUpon>
+      <LastGenOutput>UpdateEntity.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\UpdateEntity.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>UpdateEntity.edmx</DependentUpon>
+      <LastGenOutput>UpdateEntity.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="systemjs.config.js" />
@@ -248,6 +304,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Products\" />
+    <Folder Include="Views\ProductVersions\" />
+    <Folder Include="Views\Product\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -261,10 +320,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="app\boottodolist.ts" />
-    <TypeScriptCompile Include="app\components\todolist\todolist.component.ts" />
-    <TypeScriptCompile Include="app\services\app.service.todolist.ts" />
-    <TypeScriptCompile Include="app\utils\HttpHelpers.ts" />
+    <TypeScriptCompile Include="app\app.component.ts" />
+    <TypeScriptCompile Include="app\main.ts" />
+    <TypeScriptCompile Include="app\model\product.ts" />
+    <TypeScriptCompile Include="app\providers\update.service.ts" />
     <TypeScriptCompile Include="Scripts\Enums.ts">
       <DependentUpon>TypeLite.Net4.tt</DependentUpon>
     </TypeScriptCompile>

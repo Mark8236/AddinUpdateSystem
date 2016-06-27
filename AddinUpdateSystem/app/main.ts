@@ -2,5 +2,4 @@
 
 import { AppComponent } from './app.component';
 
-//enableProdMode();
 bootstrap(AppComponent); 

@@ -3,8 +3,8 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'my-app',
-    template: `<h1>Update Management System</h1>`,
+    templateUrl: 'app/templates/app.component.html',
 })
 
 export class AppComponent {
-}
+} 

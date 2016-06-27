@@ -1,0 +1,335 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SWP_SmartCubeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="T_Product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CanSilent" Type="bit" Nullable="false" />
+          <Property Name="HasPrivilege" Type="bit" Nullable="false" />
+          <Property Name="PreRunCommand" Type="nvarchar(max)" />
+          <Property Name="PostRunCommand" Type="nvarchar(max)" />
+          <Property Name="AppPreCondition" Type="nvarchar(max)" />
+          <Property Name="GacableAssemblies" Type="nvarchar(max)" />
+          <Property Name="UnGacableAssemblies" Type="nvarchar(max)" />
+          <Property Name="Description" Type="text" />
+        </EntityType>
+        <EntityType Name="T_ProductModule">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Uri" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ProductID" Type="bigint" Nullable="false" />
+          <Property Name="VersionID" Type="bigint" Nullable="false" />
+          <Property Name="BuildStartTime" Type="datetime" Nullable="false" />
+          <Property Name="Major" Type="int" Nullable="false" />
+          <Property Name="Minor" Type="int" Nullable="false" />
+          <Property Name="Build" Type="int" Nullable="false" />
+          <Property Name="Revision" Type="int" Nullable="false" />
+          <Property Name="Description" Type="text" />
+          <Property Name="CreatedTime" Type="datetime" Nullable="false" />
+          <Property Name="ChangedTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="T_ProductVersion">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductID" Type="bigint" Nullable="false" />
+          <Property Name="Major" Type="int" Nullable="false" />
+          <Property Name="Minor" Type="int" Nullable="false" />
+          <Property Name="Build" Type="int" Nullable="false" />
+          <Property Name="Revision" Type="int" Nullable="false" />
+          <Property Name="IsBeta" Type="bit" Nullable="false" />
+          <Property Name="Description" Type="text" />
+          <Property Name="CreatedTime" Type="datetime" Nullable="false" />
+          <Property Name="ChangedTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_T_Product_T_Product">
+          <End Role="T_Product" Type="Self.T_Product" Multiplicity="1" />
+          <End Role="T_Product1" Type="Self.T_Product" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="T_Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_Product1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T_ProductModule_T_Product">
+          <End Role="T_Product" Type="Self.T_Product" Multiplicity="1" />
+          <End Role="T_ProductModule" Type="Self.T_ProductModule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_ProductModule">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T_ProductModule_T_ProductVersion">
+          <End Role="T_ProductVersion" Type="Self.T_ProductVersion" Multiplicity="1" />
+          <End Role="T_ProductModule" Type="Self.T_ProductModule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_ProductVersion">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_ProductModule">
+              <PropertyRef Name="VersionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T_Version_T_Product">
+          <End Role="T_Product" Type="Self.T_Product" Multiplicity="1" />
+          <End Role="T_ProductVersion" Type="Self.T_ProductVersion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_ProductVersion">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SWP_SmartCubeModelStoreContainer">
+          <EntitySet Name="T_Product" EntityType="Self.T_Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_ProductModule" EntityType="Self.T_ProductModule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_ProductVersion" EntityType="Self.T_ProductVersion" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_T_Product_T_Product" Association="Self.FK_T_Product_T_Product">
+            <End Role="T_Product" EntitySet="T_Product" />
+            <End Role="T_Product1" EntitySet="T_Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T_ProductModule_T_Product" Association="Self.FK_T_ProductModule_T_Product">
+            <End Role="T_Product" EntitySet="T_Product" />
+            <End Role="T_ProductModule" EntitySet="T_ProductModule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T_ProductModule_T_ProductVersion" Association="Self.FK_T_ProductModule_T_ProductVersion">
+            <End Role="T_ProductVersion" EntitySet="T_ProductVersion" />
+            <End Role="T_ProductModule" EntitySet="T_ProductModule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T_Version_T_Product" Association="Self.FK_T_Version_T_Product">
+            <End Role="T_Product" EntitySet="T_Product" />
+            <End Role="T_ProductVersion" EntitySet="T_ProductVersion" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SWP_SmartCubeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CanSilent" Type="Boolean" Nullable="false" />
+          <Property Name="HasPrivilege" Type="Boolean" Nullable="false" />
+          <Property Name="PreRunCommand" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PostRunCommand" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AppPreCondition" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GacableAssemblies" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UnGacableAssemblies" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="T_Product1" Relationship="Self.FK_T_Product_T_Product" FromRole="T_Product" ToRole="T_Product1" />
+          <NavigationProperty Name="T_Product2" Relationship="Self.FK_T_Product_T_Product" FromRole="T_Product1" ToRole="T_Product" />
+          <NavigationProperty Name="T_ProductModule" Relationship="Self.FK_T_ProductModule_T_Product" FromRole="T_Product" ToRole="T_ProductModule" />
+          <NavigationProperty Name="T_ProductVersion" Relationship="Self.FK_T_Version_T_Product" FromRole="T_Product" ToRole="T_ProductVersion" />
+        </EntityType>
+        <EntityType Name="ProductModule">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Uri" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProductID" Type="Int64" Nullable="false" />
+          <Property Name="VersionID" Type="Int64" Nullable="false" />
+          <Property Name="BuildStartTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Major" Type="Int32" Nullable="false" />
+          <Property Name="Minor" Type="Int32" Nullable="false" />
+          <Property Name="Build" Type="Int32" Nullable="false" />
+          <Property Name="Revision" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ChangedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="T_Product" Relationship="Self.FK_T_ProductModule_T_Product" FromRole="T_ProductModule" ToRole="T_Product" />
+          <NavigationProperty Name="T_ProductVersion" Relationship="Self.FK_T_ProductModule_T_ProductVersion" FromRole="T_ProductModule" ToRole="T_ProductVersion" />
+        </EntityType>
+        <EntityType Name="ProductVersion">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int64" Nullable="false" />
+          <Property Name="Major" Type="Int32" Nullable="false" />
+          <Property Name="Minor" Type="Int32" Nullable="false" />
+          <Property Name="Build" Type="Int32" Nullable="false" />
+          <Property Name="Revision" Type="Int32" Nullable="false" />
+          <Property Name="IsBeta" Type="Boolean" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ChangedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="T_Product" Relationship="Self.FK_T_Version_T_Product" FromRole="T_ProductVersion" ToRole="T_Product" />
+          <NavigationProperty Name="T_ProductModule" Relationship="Self.FK_T_ProductModule_T_ProductVersion" FromRole="T_ProductVersion" ToRole="T_ProductModule" />
+        </EntityType>
+        <Association Name="FK_T_Product_T_Product">
+          <End Role="T_Product" Type="SWP_SmartCubeModel.Product" Multiplicity="1" />
+          <End Role="T_Product1" Type="SWP_SmartCubeModel.Product" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="T_Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_Product1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T_ProductModule_T_Product">
+          <End Role="T_Product" Type="SWP_SmartCubeModel.Product" Multiplicity="1" />
+          <End Role="T_ProductModule" Type="SWP_SmartCubeModel.ProductModule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_ProductModule">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T_Version_T_Product">
+          <End Role="T_Product" Type="SWP_SmartCubeModel.Product" Multiplicity="1" />
+          <End Role="T_ProductVersion" Type="SWP_SmartCubeModel.ProductVersion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_ProductVersion">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T_ProductModule_T_ProductVersion">
+          <End Role="T_ProductVersion" Type="SWP_SmartCubeModel.ProductVersion" Multiplicity="1" />
+          <End Role="T_ProductModule" Type="SWP_SmartCubeModel.ProductModule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_ProductVersion">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_ProductModule">
+              <PropertyRef Name="VersionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SWP_SmartCubeEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="T_Product" EntityType="SWP_SmartCubeModel.Product" />
+          <EntitySet Name="T_ProductModule" EntityType="SWP_SmartCubeModel.ProductModule" />
+          <EntitySet Name="T_ProductVersion" EntityType="SWP_SmartCubeModel.ProductVersion" />
+          <AssociationSet Name="FK_T_Product_T_Product" Association="Self.FK_T_Product_T_Product">
+            <End Role="T_Product" EntitySet="T_Product" />
+            <End Role="T_Product1" EntitySet="T_Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T_ProductModule_T_Product" Association="Self.FK_T_ProductModule_T_Product">
+            <End Role="T_Product" EntitySet="T_Product" />
+            <End Role="T_ProductModule" EntitySet="T_ProductModule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T_Version_T_Product" Association="Self.FK_T_Version_T_Product">
+            <End Role="T_Product" EntitySet="T_Product" />
+            <End Role="T_ProductVersion" EntitySet="T_ProductVersion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T_ProductModule_T_ProductVersion" Association="Self.FK_T_ProductModule_T_ProductVersion">
+            <End Role="T_ProductVersion" EntitySet="T_ProductVersion" />
+            <End Role="T_ProductModule" EntitySet="T_ProductModule" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SWP_SmartCubeModelStoreContainer" CdmEntityContainer="SWP_SmartCubeEntities">
+          <EntitySetMapping Name="T_Product">
+            <EntityTypeMapping TypeName="SWP_SmartCubeModel.Product">
+              <MappingFragment StoreEntitySet="T_Product">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CanSilent" ColumnName="CanSilent" />
+                <ScalarProperty Name="HasPrivilege" ColumnName="HasPrivilege" />
+                <ScalarProperty Name="PreRunCommand" ColumnName="PreRunCommand" />
+                <ScalarProperty Name="PostRunCommand" ColumnName="PostRunCommand" />
+                <ScalarProperty Name="AppPreCondition" ColumnName="AppPreCondition" />
+                <ScalarProperty Name="GacableAssemblies" ColumnName="GacableAssemblies" />
+                <ScalarProperty Name="UnGacableAssemblies" ColumnName="UnGacableAssemblies" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_ProductModule">
+            <EntityTypeMapping TypeName="SWP_SmartCubeModel.ProductModule">
+              <MappingFragment StoreEntitySet="T_ProductModule">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Uri" ColumnName="Uri" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="VersionID" ColumnName="VersionID" />
+                <ScalarProperty Name="BuildStartTime" ColumnName="BuildStartTime" />
+                <ScalarProperty Name="Major" ColumnName="Major" />
+                <ScalarProperty Name="Minor" ColumnName="Minor" />
+                <ScalarProperty Name="Build" ColumnName="Build" />
+                <ScalarProperty Name="Revision" ColumnName="Revision" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="ChangedTime" ColumnName="ChangedTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_ProductVersion">
+            <EntityTypeMapping TypeName="SWP_SmartCubeModel.ProductVersion">
+              <MappingFragment StoreEntitySet="T_ProductVersion">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="Major" ColumnName="Major" />
+                <ScalarProperty Name="Minor" ColumnName="Minor" />
+                <ScalarProperty Name="Build" ColumnName="Build" />
+                <ScalarProperty Name="Revision" ColumnName="Revision" />
+                <ScalarProperty Name="IsBeta" ColumnName="IsBeta" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="ChangedTime" ColumnName="ChangedTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
